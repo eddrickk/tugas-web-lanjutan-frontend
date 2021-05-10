@@ -1,29 +1,41 @@
 <template>
-  <h1>{{ msg }}</h1>
-
-  <p>
-    <a href="https://vitejs.dev/guide/features.html" target="_blank">
-      Vite Documentation
-    </a>
-    |
-    <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Documentation</a>
-  </p>
-
-  <button @click="state.count++">count is: {{ state.count }}</button>
-  <p>
-    Edit
-    <code>components/HelloWorld.vue</code> to test hot module replacement.
-  </p>
+  <div>
+    <h1>Selamat Datang</h1>
+    <div>Daftar Description :</div>
+    <ul>
+      <li v-for="item in todos" :key="item">{{item.description}} <button @click="deleteTodos(item.description)">X</button></li>
+    </ul>
+    <input v-model="myText" type="text">
+    <button @click="addTodos">Add</button>
+  </div>
 </template>
 
-<script setup>
-import { defineProps, reactive } from 'vue'
-
-defineProps({
-  msg: String
-})
-
-const state = reactive({ count: 0 })
+<script>
+  import axios from 'axios'
+  export default {
+    data: () => { 
+      return { 
+        todos: [],
+        myText: ''
+      } 
+    },
+    mounted: function () {
+      this.getTodos()
+    },
+    methods: {
+      getTodos(){
+        axios.get('http://localhost:3000/todo')
+        .then(result => {
+          this.todos = result.data
+        })
+      },
+      addTodos(){
+        let newItem = {description: this.myText}
+        axios.post('http://localhost:3000/todo', newItem)
+        this.todos.push(newItem)
+      },
+    }
+  }
 </script>
 
 <style scoped>
