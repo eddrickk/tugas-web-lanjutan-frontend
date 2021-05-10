@@ -3,7 +3,7 @@
     <h1>Selamat Datang</h1>
     <div>Daftar Description :</div>
     <ul>
-      <li v-for="item in todos" :key="item">{{item.description}} <button @click="deleteTodos(item.description)">X</button></li>
+      <li v-for="item in todos" :key="item">{{item.description}} <button @click="deleteTodos(item.id)">X</button></li>
     </ul>
     <input v-model="myText" type="text">
     <button @click="addTodos">Add</button>
@@ -34,6 +34,12 @@
         axios.post('http://localhost:3000/todo', newItem)
         this.todos.push(newItem)
       },
+      deleteTodos(id){
+        axios.delete(`http://localhost:3000/todo/${id}`)
+          .then(() => {
+            this.getTodos()
+          })
+      }
     }
   }
 </script>
