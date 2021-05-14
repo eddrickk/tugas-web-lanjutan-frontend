@@ -32,7 +32,10 @@
       addTodos(){
         let newItem = {description: this.myText}
         axios.post('http://localhost:3000/todo', newItem)
-        this.todos.push(newItem)
+          .then(() => {
+            this.getTodos()
+          })
+        //this.todos.push(newItem)
       },
       deleteTodos(id){
         axios.delete(`http://localhost:3000/todo/${id}`)
