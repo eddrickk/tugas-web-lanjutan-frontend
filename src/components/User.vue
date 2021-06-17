@@ -5,9 +5,9 @@
     <ul>
       <li v-for="item in users" :key="item">{{item.username}} <button @click="deleteUsers(item.id)">X</button></li>
     </ul>
-    <input v-model="username" placeholder="Username">
+    <input v-model="username" type="text" placeholder="Username">
     <br/>
-    <input v-model="password" placeholder="Password">
+    <input v-model="password" type="password" placeholder="Password">
     <br/>
     <button @click="addUsers">Add</button>
   </div>
@@ -41,7 +41,7 @@
         let newItem = {username: this.username, password: this.password}
         axios.post('http://localhost:3000/user', newItem, { headers: {username, password} })
           .then(() => {
-            this.getTodos()
+            this.getUsers()
           })
         //this.todos.push(newItem)
       },
@@ -50,7 +50,7 @@
         const password = localStorage.getItem('pwd')
         axios.delete(`http://localhost:3000/user/${id}`, { headers: {username, password} })
           .then(() => {
-            this.getTodos()
+            this.getUsers()
           })
       }
     }
